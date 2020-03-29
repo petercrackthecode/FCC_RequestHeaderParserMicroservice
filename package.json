@@ -1,0 +1,11 @@
+{
+  "name": "RequestHeaderParser",
+  "version": "1.0.0",
+  "main": "server.js",
+  "repository": "https://github.com/petercrackthecode/FCC_RequestHeaderParserMicroservice.git",
+  "author": "petercrackthecode <nguyenvandung02051999@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
