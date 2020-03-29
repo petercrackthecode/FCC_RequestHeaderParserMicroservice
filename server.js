@@ -1,11 +1,22 @@
-const fs = require("fs");
+let express = require("express");
+let app = express();
+require('dotenv/config');
 
-fs.mkdir('./static/script', (err) => {
-    if (err) console.log(err);
-    else {
-        fs.writeFile("./static/script/script.js", "", "utf-8", (err) => {
-            console.log(err ? err : "File script.js successfully created");
-        });
-    }
+// enable CORS (https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)
+// so that your API is remotely testable by FCC
+let cors = require("cors");
+app.use(cors({ optionSuccessStatus: 200 })); // some legacy browsers choke on 204
+
+app.use(express.static(path.join(__dirname, '/static/style')));
+
+app.get("/", (req, res) => {
+    res.sendFile(__dirname + "/static/index.html");
 });
 
+app.get("/api/hello", (req, res) => {
+    res.json({greeting: 'hello API'});
+});
+
+app.listen(process.env.PORT, () => {
+    console.log(`Your app is listening on port ${process.env.PORT}`);
+});
