@@ -1,3 +1,4 @@
+/*
 let address, // Local ip address that we're trying to calculate
   os = require("os"), // Provides a few basic operating-system related utility functions (built-in)
   ifaces = os.networkInterfaces(); // Network interfaces
@@ -14,3 +15,11 @@ for (let dev in ifaces) {
 
 // Print the result
 console.log(address);
+*/
+
+const publicIp= require("public-ip");
+
+(async () => {
+  console.log(await publicIp.v4());
+  console.log(await publicIp.v6());
+})();

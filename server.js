@@ -1,26 +1,41 @@
 let express = require("express");
 let app = express();
-require('dotenv/config');
+let path = require("path");
+require("dotenv/config");
+const publicIp = require("public-ip");
 
 // enable CORS (https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)
 // so that your API is remotely testable by FCC
 let cors = require("cors");
 app.use(cors({ optionSuccessStatus: 200 })); // some legacy browsers choke on 204
 
-app.use(express.static(path.join(__dirname, '/static/style')));
+app.use(express.static(path.join(__dirname, "/static/style")));
 
 app.get("/", (req, res) => {
-    res.sendFile(__dirname + "/static/index.html");
+  res.sendFile(__dirname + "/static/index.html");
 });
 
 app.get("/api/hello", (req, res) => {
-    res.json({greeting: 'hello API'});
+  res.json({ greeting: "hello API" });
 });
 
 app.get("/api/whoami", (req, res) => {
-    
+  const language = req.headers["accept-language"],
+    software = req.headers["user-agent"];
+
+  let ipv4;
+
+  (async () => {
+    ipv4 = await publicIp.v4();
+  })();
+
+  console.log(`language= ${language}`);
+  console.log(`software= ${software}`);
+  console.log(`ipv4= ${ipv4}`);
+
+  res.json({ status: "testing" });
 });
 
 app.listen(process.env.PORT, () => {
-    console.log(`Your app is listening on port ${process.env.PORT}`);
+  console.log(`Your app is listening on port ${process.env.PORT}`);
 });
