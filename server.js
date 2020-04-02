@@ -27,7 +27,13 @@ app.get("/api/whoami", (req, res) => {
 
   (async () => {
     ipv4 = await publicIp.v4();
-  })();
+  })()
+  .then((message) => {
+      console.log('Success: ' + message);
+  })
+  .catch(error => {
+      console.log(error.name + ' ' + error.message);
+  });
 
   console.log(`language= ${language}`);
   console.log(`software= ${software}`);
@@ -39,3 +45,48 @@ app.get("/api/whoami", (req, res) => {
 app.listen(process.env.PORT, () => {
   console.log(`Your app is listening on port ${process.env.PORT}`);
 });
+
+/*
+let p = new Promise((resolve, reject) => {
+  let a = 1 + 1;
+  if (a === 2) {
+    resolve("");
+  } else {
+    reject("failed");
+  }
+});
+
+p.then(message => {
+  console.log(`This is in the then ${message}`);
+}).catch(message => {
+  console.log(`This is in the catch ${message}`);
+});
+
+const userLeft = true;
+const userWatchingCatMeme = false;
+
+function watchTutorialCallback(callback, errorCallback) {
+  if (userLeft) {
+    errorCallback({
+      name: "User Left",
+      message: ":("
+    });
+  } else if (userWatchingCatMeme) {
+    errorCallback({
+      name: "User Watching Cat Meme",
+      message: "WebDevSimplified < Cat"
+    });
+  } else {
+    callback("Thumbs up and Subscribe");
+  }
+}
+
+watchTutorialCallback(
+  message => {
+    console.log("Success: " + message);
+  },
+  error => {
+    console.log(error.name + " " + error.message);
+  }
+);
+*/
