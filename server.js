@@ -3,6 +3,7 @@ let app = express();
 let path = require("path");
 require("dotenv/config");
 const publicIp = require("public-ip");
+const https = require("https");
 
 // enable CORS (https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)
 // so that your API is remotely testable by FCC
@@ -19,27 +20,29 @@ app.get("/api/hello", (req, res) => {
   res.json({ greeting: "hello API" });
 });
 
-app.get("/api/whoami", (req, res) => {
+app.get("/api/whoami", async (req, res) => {
   const language = req.headers["accept-language"],
     software = req.headers["user-agent"];
 
   let ipv4;
 
-  (async () => {
-    ipv4 = await publicIp.v4();
-  })()
-  .then((message) => {
-      console.log('Success: ' + message);
-  })
-  .catch(error => {
-      console.log(error.name + ' ' + error.message);
+  const url = "https://api.ipify.org/?format=json";
+  https.get(url, response => {
+    response.setEncoding("utf8");
+    let body = "";
+    response.on("data", data => {
+      body += data;
+    });
+    response.on("end", async () => {
+      body = JSON.parse(body);
+      ipv4 = await body.ip;
+      res.json({
+          ip: ipv4,
+          language: language,
+          software: software
+      });
+    });
   });
-
-  console.log(`language= ${language}`);
-  console.log(`software= ${software}`);
-  console.log(`ipv4= ${ipv4}`);
-
-  res.json({ status: "testing" });
 });
 
 app.listen(process.env.PORT, () => {
