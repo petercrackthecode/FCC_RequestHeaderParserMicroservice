@@ -17,6 +17,10 @@ app.get("/api/hello", (req, res) => {
     res.json({greeting: 'hello API'});
 });
 
+app.get("/api/whoami", (req, res) => {
+    
+});
+
 app.listen(process.env.PORT, () => {
     console.log(`Your app is listening on port ${process.env.PORT}`);
 });
