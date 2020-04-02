@@ -10,7 +10,7 @@ const https = require("https");
 let cors = require("cors");
 app.use(cors({ optionSuccessStatus: 200 })); // some legacy browsers choke on 204
 
-app.use(express.static(path.join(__dirname, "/static")));
+app.use(express.static(path.join(__dirname, "/static/style")));
 
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/static/index.html");

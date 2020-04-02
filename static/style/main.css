@@ -2,6 +2,11 @@ body {
     color: green;
 }
 
-.container * {
-    border: 1px solid blue;
+.container > * {
+    display: grid;
+    place-items: center;
+}
+
+span {
+    font-family: 'Courier New', Courier, monospace;
 }
