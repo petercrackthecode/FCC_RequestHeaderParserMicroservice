@@ -1,0 +1,12 @@
+body {
+    color: green;
+}
+
+.container > * {
+    display: grid;
+    place-items: center;
+}
+
+span {
+    font-family: 'Courier New', Courier, monospace;
+}

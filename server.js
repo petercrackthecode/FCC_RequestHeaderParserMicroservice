@@ -18,8 +18,29 @@ app.get("/api/hello", (req, res) => {
   res.json({ greeting: "hello API" });
 });
 
-app.get("/api/whoami", (req, res) => {
-  res.json({sayHello: "Hello"});
+app.get("/api/whoami", async (req, res) => {
+  const language = req.headers["accept-language"],
+    software = req.headers["user-agent"];
+
+  let ipv4;
+
+  const url = "https://api.ipify.org/?format=json";
+  https.get(url, response => {
+    response.setEncoding("utf8");
+    let body = "";
+    response.on("data", data => {
+      body += data;
+    });
+    response.on("end", async () => {
+      body = JSON.parse(body);
+      ipv4 = await body.ip;
+      res.json({
+          ip: ipv4,
+          language: language,
+          software: software
+      });
+    });
+  });
 });
 
 app.listen(process.env.PORT, () => {
