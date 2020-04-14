@@ -37,7 +37,7 @@ app.get("/api/whoami", async (req, res) => {
       body = JSON.parse(body);
       ipv4 = await body.ip;
       res.json({
-          ip: ipv4,
+          ipaddress: ipv4,
           language: language,
           software: software
       });
